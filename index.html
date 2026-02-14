@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Wifey ❤️</title>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+color:black;
+text-align:center;
+}
+
+/* Screens */
+.screen{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+position:relative;
+}
+
+.hidden{ display:none; }
+
+/* Heartbeat */
+.heartbeat{
+animation:heartbeat 1.5s infinite;
+}
+@keyframes heartbeat{
+0%{transform:scale(1)}
+25%{transform:scale(1.05)}
+40%{transform:scale(1)}
+60%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+/* Buttons */
+button{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+position:absolute;
+}
+
+#yesBtn{
+background:#28a745;
+color:white;
+left:55%;
+}
+
+#noBtn{
+background:#dc3545;
+color:white;
+left:35%;
+}
+
+/* Sparkles */
+.sparkle{
+position:absolute;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+opacity:0.7;
+animation:floatUp 6s linear infinite;
+}
+
+/* Teddy */
+.teddy{
+position:absolute;
+font-size:40px;
+animation:floatUp 8s linear infinite;
+}
+
+/* Hearts */
+.heart{
+position:absolute;
+font-size:40px;
+animation:floatUp 5s linear infinite;
+}
+
+/* Petals */
+.petal{
+position:absolute;
+font-size:35px;
+animation:fall 6s linear infinite;
+}
+
+/* Confetti */
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+animation:fall 5s linear infinite;
+}
+
+/* Animations */
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg);}
+100%{transform:translateY(100vh) rotate(360deg);}
+}
+
+/* Flash */
+.flash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+animation:flash 0.5s ease-out;
+}
+@keyframes flash{
+0%{opacity:1;}
+100%{opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+<source src="kalyani.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Opening -->
+<div id="inbox" class="screen">
+<h1 class="heartbeat">Wifey ❤️</h1>
+<p>Click anywhere...</p>
+</div>
+
+<!-- Proposal -->
+<div id="proposal" class="screen hidden">
+<h1>Will you be my Valentine, Wifey? ❤️</h1>
+<button id="noBtn">No</button>
+<button id="yesBtn">Yes</button>
+</div>
+
+<!-- Final -->
+<div id="final" class="screen hidden">
+<h1>YOU SAID YES 💖</h1>
+<p>
+You just made my world brighter.
+<br><br>
+I don’t just love you.
+<br>
+I choose you.
+<br>
+Every day.
+<br>
+In every lifetime.
+<br><br>
+Forever yours, Wifey ❤️
+</p>
+</div>
+
+<script>
+
+const inbox = document.getElementById("inbox");
+const proposal = document.getElementById("proposal");
+const finalScreen = document.getElementById("final");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const music = document.getElementById("bgMusic");
+
+/* OPEN MAIL */
+inbox.addEventListener("click", function(){
+    music.play().catch(()=>{});
+    inbox.classList.add("hidden");
+    proposal.classList.remove("hidden");
+});
+
+/* NO BUTTON */
+const messages = [
+"No way 😏",
+"Seriously?",
+"Think again.",
+"Wrong choice.",
+"You sure?",
+"Only Yes works ❤️"
+];
+let index = 0;
+
+noBtn.addEventListener("mouseover", function(){
+    noBtn.style.left = Math.random()*70 + "%";
+    noBtn.style.top = Math.random()*300 + "px";
+    alert(messages[index]);
+    index = (index + 1) % messages.length;
+});
+
+/* YES BUTTON */
+yesBtn.addEventListener("click", function(){
+    proposal.classList.add("hidden");
+    finalScreen.classList.remove("hidden");
+    createFlash();
+    startCelebration();
+});
+
+/* Flash */
+function createFlash(){
+    const flash=document.createElement("div");
+    flash.className="flash";
+    document.body.appendChild(flash);
+    setTimeout(()=>flash.remove(),500);
+}
+
+/* Celebration */
+function startCelebration(){
+    setInterval(()=>createEmoji("💖","heart"),300);
+    setInterval(()=>createEmoji("🌹","petal"),400);
+    setInterval(()=>createConfetti(),150);
+}
+
+/* Create Emoji */
+function createEmoji(symbol, className){
+    const el=document.createElement("div");
+    el.className=className;
+    el.innerHTML=symbol;
+    el.style.left=Math.random()*100+"%";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),6000);
+}
+
+/* Confetti */
+function createConfetti(){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"%";
+    c.style.background="hsl("+Math.random()*360+",100%,50%)";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+}
+
+/* Sparkles (lightweight) */
+for(let i=0;i<30;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"%";
+    document.body.appendChild(s);
+}
+
+/* Teddy Bears (lightweight) */
+for(let i=0;i<15;i++){
+    const t=document.createElement("div");
+    t.className="teddy";
+    t.innerHTML="🧸";
+    t.style.left=Math.random()*100+"%";
+    document.body.appendChild(t);
+}
+
+</script>
+
+</body>
+</html>

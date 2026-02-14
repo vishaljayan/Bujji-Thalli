@@ -4,11 +4,14 @@
 <meta charset="UTF-8">
 <title>For Wifey ❤️</title>
 
+<!-- Premium Romantic Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
 <style>
 body{
 margin:0;
 overflow:hidden;
-font-family:Arial, sans-serif;
+font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#ff9a9e,#fad0c4);
 color:black;
 text-align:center;
@@ -22,9 +25,22 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 position:relative;
+padding:20px;
 }
 
 .hidden{ display:none; }
+
+/* Romantic Heading */
+.romantic{
+font-family:'Great Vibes',cursive;
+font-size:80px;
+}
+
+/* Sub text */
+.subtext{
+font-size:22px;
+margin-top:10px;
+}
 
 /* Heartbeat */
 .heartbeat{
@@ -39,71 +55,50 @@ animation:heartbeat 1.5s infinite;
 }
 
 /* Buttons */
+.button-container{
+margin-top:50px;
+display:flex;
+gap:40px;
+}
+
 button{
-padding:15px 30px;
+padding:15px 35px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
-position:absolute;
+font-weight:600;
 }
 
 #yesBtn{
 background:#28a745;
 color:white;
-left:55%;
 }
 
 #noBtn{
 background:#dc3545;
 color:white;
-left:35%;
+position:relative;
 }
 
-/* Sparkles */
-.sparkle{
-position:absolute;
-width:6px;
-height:6px;
-background:white;
-border-radius:50%;
-opacity:0.7;
-animation:floatUp 6s linear infinite;
-}
-
-/* Teddy */
-.teddy{
-position:absolute;
-font-size:40px;
-animation:floatUp 8s linear infinite;
-}
-
-/* Hearts */
-.heart{
-position:absolute;
-font-size:40px;
-animation:floatUp 5s linear infinite;
-}
-
-/* Petals */
-.petal{
+/* Floating Elements */
+.floating{
 position:absolute;
 font-size:35px;
-animation:fall 6s linear infinite;
+animation:floatUp 8s linear infinite;
+pointer-events:none;
 }
 
-/* Confetti */
-.confetti{
-position:absolute;
-width:8px;
-height:8px;
-animation:fall 5s linear infinite;
-}
-
-/* Animations */
 @keyframes floatUp{
 0%{transform:translateY(100vh);opacity:1;}
 100%{transform:translateY(-10vh);opacity:0;}
+}
+
+.fall{
+position:absolute;
+font-size:30px;
+animation:fall 7s linear infinite;
+pointer-events:none;
 }
 
 @keyframes fall{
@@ -136,28 +131,31 @@ animation:flash 0.5s ease-out;
 
 <!-- Opening -->
 <div id="inbox" class="screen">
-<h1 class="heartbeat">Wifey ❤️</h1>
-<p>Click anywhere...</p>
+<h1 class="romantic heartbeat">Wifey ❤️</h1>
+<p class="subtext">Click anywhere...</p>
 </div>
 
 <!-- Proposal -->
 <div id="proposal" class="screen hidden">
-<h1>Will you be my Valentine, Wifey? ❤️</h1>
-<button id="noBtn">No</button>
+<h1 class="romantic">Will you be my Valentine, Wifey? ❤️</h1>
+
+<div class="button-container">
 <button id="yesBtn">Yes</button>
+<button id="noBtn">No</button>
+</div>
 </div>
 
 <!-- Final -->
 <div id="final" class="screen hidden">
-<h1>YOU SAID YES 💖</h1>
-<p>
+<h1 class="romantic">YOU SAID YES 💖</h1>
+<p class="subtext">
 You just made my world brighter.
 <br><br>
 I don’t just love you.
 <br>
 I choose you.
 <br>
-Every day.
+Every single day.
 <br>
 In every lifetime.
 <br><br>
@@ -176,12 +174,12 @@ const music = document.getElementById("bgMusic");
 
 /* OPEN MAIL */
 inbox.addEventListener("click", function(){
-    music.play().catch(()=>{});
-    inbox.classList.add("hidden");
-    proposal.classList.remove("hidden");
+music.play().catch(()=>{});
+inbox.classList.add("hidden");
+proposal.classList.remove("hidden");
 });
 
-/* NO BUTTON */
+/* NO BUTTON FUN */
 const messages = [
 "No way 😏",
 "Seriously?",
@@ -190,73 +188,53 @@ const messages = [
 "You sure?",
 "Only Yes works ❤️"
 ];
+
 let index = 0;
 
 noBtn.addEventListener("mouseover", function(){
-    noBtn.style.left = Math.random()*70 + "%";
-    noBtn.style.top = Math.random()*300 + "px";
-    alert(messages[index]);
-    index = (index + 1) % messages.length;
+noBtn.style.position="absolute";
+noBtn.style.left=Math.random()*80+"%";
+noBtn.style.top=Math.random()*70+"%";
+alert(messages[index]);
+index=(index+1)%messages.length;
 });
 
 /* YES BUTTON */
 yesBtn.addEventListener("click", function(){
-    proposal.classList.add("hidden");
-    finalScreen.classList.remove("hidden");
-    createFlash();
-    startCelebration();
+proposal.classList.add("hidden");
+finalScreen.classList.remove("hidden");
+createFlash();
 });
 
 /* Flash */
 function createFlash(){
-    const flash=document.createElement("div");
-    flash.className="flash";
-    document.body.appendChild(flash);
-    setTimeout(()=>flash.remove(),500);
+const flash=document.createElement("div");
+flash.className="flash";
+document.body.appendChild(flash);
+setTimeout(()=>flash.remove(),500);
 }
 
-/* Celebration */
-function startCelebration(){
-    setInterval(()=>createEmoji("💖","heart"),300);
-    setInterval(()=>createEmoji("🌹","petal"),400);
-    setInterval(()=>createConfetti(),150);
+/* Floating Hearts, Teddies & Flowers From Start */
+setInterval(()=>createFloating("💖"),1000);
+setInterval(()=>createFloating("🧸"),1400);
+setInterval(()=>createFalling("🌸"),1200);
+
+function createFloating(symbol){
+const el=document.createElement("div");
+el.className="floating";
+el.innerHTML=symbol;
+el.style.left=Math.random()*100+"%";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),8000);
 }
 
-/* Create Emoji */
-function createEmoji(symbol, className){
-    const el=document.createElement("div");
-    el.className=className;
-    el.innerHTML=symbol;
-    el.style.left=Math.random()*100+"%";
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),6000);
-}
-
-/* Confetti */
-function createConfetti(){
-    const c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"%";
-    c.style.background="hsl("+Math.random()*360+",100%,50%)";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
-}
-
-/* Sparkles (lightweight) */
-for(let i=0;i<30;i++){
-    const s=document.createElement("div");
-    s.className="sparkle";
-    s.style.left=Math.random()*100+"%";
-    document.body.appendChild(s);
-}
-
-/* Teddy Bears (lightweight) */
-for(let i=0;i<15;i++){
-    const t=document.createElement("div");
-    t.className="teddy";
-    t.innerHTML="🧸";
-    t.style.left=Math.random()*100+"%";
-    document.body.appendChild(t);
+function createFalling(symbol){
+const el=document.createElement("div");
+el.className="fall";
+el.innerHTML=symbol;
+el.style.left=Math.random()*100+"%";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),7000);
 }
 
 </script>
